@@ -1,0 +1,1841 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Junior Carbon Operator — Kit de préparation ENGIE S&EM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0b0f0e;
+    --surface: #121915;
+    --surface2: #1a231f;
+    --border: #1f2e28;
+    --accent: #3ddc84;
+    --accent2: #1aad5e;
+    --accent3: #a8ffce;
+    --warn: #f5c242;
+    --muted: #4a6358;
+    --text: #d4e8df;
+    --text2: #8aab9a;
+    --heading: #eefaf3;
+    --tag-bg: #0f261c;
+    --tag-border: #1f4030;
+    --code-bg: #0d1b14;
+    --red: #ff6b6b;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Lora', Georgia, serif;
+    font-size: 16px;
+    line-height: 1.75;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── GRID NOISE TEXTURE ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 10% 20%, rgba(61,220,132,0.04) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 80% at 90% 80%, rgba(26,173,94,0.03) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── SIDEBAR NAV ── */
+  #sidebar {
+    position: fixed;
+    left: 0; top: 0; bottom: 0;
+    width: 260px;
+    background: rgba(9,14,12,0.97);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    z-index: 100;
+    padding: 2rem 0 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    backdrop-filter: blur(8px);
+  }
+  #sidebar::-webkit-scrollbar { width: 4px; }
+  #sidebar::-webkit-scrollbar-track { background: transparent; }
+  #sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  .sidebar-logo {
+    padding: 0 1.5rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 1rem;
+  }
+  .sidebar-logo .brand {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1rem;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .sidebar-logo .sub {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    margin-top: 0.2rem;
+    letter-spacing: 0.04em;
+  }
+
+  .nav-section-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 0.8rem 1.5rem 0.3rem;
+  }
+
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.4rem 1.5rem;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text2);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 2px solid transparent;
+  }
+  .nav-link:hover, .nav-link.active {
+    color: var(--accent);
+    border-left-color: var(--accent);
+    background: rgba(61,220,132,0.04);
+  }
+  .nav-link .nav-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--muted);
+    min-width: 1.4rem;
+  }
+
+  /* ── MAIN CONTENT ── */
+  #main {
+    margin-left: 260px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── HERO ── */
+  #hero {
+    padding: 5rem 4rem 4rem;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  #hero::after {
+    content: 'C₂O';
+    position: absolute;
+    right: 3rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Syne', sans-serif;
+    font-size: 10rem;
+    font-weight: 800;
+    color: rgba(61,220,132,0.04);
+    letter-spacing: -0.05em;
+    pointer-events: none;
+    user-select: none;
+  }
+  .hero-eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+  .hero-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--heading);
+    line-height: 1.1;
+    max-width: 680px;
+    margin-bottom: 1.5rem;
+  }
+  .hero-title span { color: var(--accent); }
+  .hero-desc {
+    font-size: 1rem;
+    color: var(--text2);
+    max-width: 560px;
+    margin-bottom: 2rem;
+  }
+  .hero-meta {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .meta-chip {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--tag-bg);
+    border: 1px solid var(--tag-border);
+    border-radius: 4px;
+    padding: 0.35rem 0.8rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--text2);
+  }
+  .meta-chip .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  /* ── ALERT BOX ── */
+  .alert {
+    margin: 2rem 4rem;
+    padding: 1.2rem 1.5rem;
+    border-radius: 6px;
+    border-left: 3px solid;
+    font-size: 0.9rem;
+  }
+  .alert-info {
+    background: rgba(61,220,132,0.05);
+    border-color: var(--accent);
+    color: var(--text);
+  }
+  .alert-warn {
+    background: rgba(245,194,66,0.06);
+    border-color: var(--warn);
+    color: var(--text);
+  }
+  .alert-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+    color: var(--warn);
+  }
+  .alert-info .alert-label { color: var(--accent); }
+
+  /* ── SECTION ── */
+  .section {
+    padding: 4rem 4rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .section:last-child { border-bottom: none; }
+
+  .section-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.2rem;
+    margin-bottom: 2.5rem;
+  }
+  .section-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    padding-top: 0.5rem;
+    min-width: 2rem;
+  }
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--heading);
+    line-height: 1.2;
+  }
+  .section-title .accent { color: var(--accent); }
+
+  h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--heading);
+    margin: 2rem 0 0.8rem;
+  }
+  h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--accent3);
+    margin: 1.4rem 0 0.5rem;
+    letter-spacing: 0.02em;
+  }
+
+  p { margin-bottom: 1rem; color: var(--text); }
+  p:last-child { margin-bottom: 0; }
+
+  strong { color: var(--heading); font-weight: 600; }
+  em { color: var(--accent3); font-style: italic; }
+
+  /* ── CARDS GRID ── */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.4rem;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .card:hover {
+    border-color: var(--accent2);
+    transform: translateY(-2px);
+  }
+  .card-icon {
+    font-size: 1.6rem;
+    margin-bottom: 0.8rem;
+    display: block;
+  }
+  .card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--heading);
+    margin-bottom: 0.5rem;
+  }
+  .card-body { font-size: 0.84rem; color: var(--text2); line-height: 1.6; }
+
+  /* ── TABLE ── */
+  .tbl-wrap { overflow-x: auto; margin: 1.5rem 0; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+  }
+  thead th {
+    background: var(--surface2);
+    color: var(--accent);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.8rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  tbody td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    color: var(--text);
+  }
+  tbody tr:hover td { background: rgba(61,220,132,0.025); }
+
+  /* ── CODE / MONO ── */
+  code {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.82rem;
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 0.1em 0.4em;
+    color: var(--accent3);
+  }
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1.2rem 1.4rem;
+    overflow-x: auto;
+    margin: 1.2rem 0;
+  }
+  pre code {
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 0.82rem;
+    color: var(--accent3);
+    line-height: 1.7;
+  }
+
+  /* ── TIMELINE ── */
+  .timeline {
+    position: relative;
+    padding-left: 2rem;
+    margin: 1.5rem 0;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0.55rem;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--border);
+  }
+  .tl-item {
+    position: relative;
+    margin-bottom: 1.5rem;
+    padding-left: 0.5rem;
+  }
+  .tl-item::before {
+    content: '';
+    position: absolute;
+    left: -1.5rem;
+    top: 0.5rem;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--bg);
+  }
+  .tl-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    margin-bottom: 0.3rem;
+  }
+  .tl-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--heading);
+    margin-bottom: 0.4rem;
+  }
+  .tl-body { font-size: 0.85rem; color: var(--text2); }
+
+  /* ── RESOURCE LINKS ── */
+  .resources {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    margin: 1.2rem 0;
+  }
+  .resource-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.9rem 1.1rem;
+    text-decoration: none;
+    transition: border-color 0.2s;
+  }
+  .resource-item:hover { border-color: var(--accent2); }
+  .resource-badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.5rem;
+    border-radius: 3px;
+    white-space: nowrap;
+    margin-top: 0.1rem;
+    min-width: 60px;
+    text-align: center;
+  }
+  .badge-vid { background: rgba(255,107,107,0.12); color: #ff9a9a; border: 1px solid rgba(255,107,107,0.2); }
+  .badge-doc { background: rgba(61,220,132,0.1); color: var(--accent); border: 1px solid var(--tag-border); }
+  .badge-course { background: rgba(168,255,206,0.08); color: var(--accent3); border: 1px solid rgba(168,255,206,0.15); }
+  .badge-tool { background: rgba(245,194,66,0.1); color: var(--warn); border: 1px solid rgba(245,194,66,0.2); }
+  .resource-content { flex: 1; }
+  .resource-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 0.88rem;
+    color: var(--heading);
+    margin-bottom: 0.2rem;
+  }
+  .resource-desc { font-size: 0.78rem; color: var(--text2); line-height: 1.5; font-family: 'Lora', serif; }
+  .resource-url {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    margin-top: 0.25rem;
+    word-break: break-all;
+  }
+
+  /* ── TAG LIST ── */
+  .tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.8rem 0; }
+  .tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    background: var(--tag-bg);
+    border: 1px solid var(--tag-border);
+    color: var(--accent);
+    padding: 0.2rem 0.6rem;
+    border-radius: 3px;
+    letter-spacing: 0.04em;
+  }
+
+  /* ── PROGRESS INDICATOR ── */
+  #progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 2px;
+    background: var(--accent);
+    z-index: 200;
+    transition: width 0.1s;
+    width: 0%;
+  }
+
+  /* ── CHAPTER DIVIDER ── */
+  .ch-divider {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 2.5rem 0 1.5rem;
+  }
+  .ch-divider .ch-line { flex: 1; height: 1px; background: var(--border); }
+  .ch-divider .ch-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* ── PILL TABS ── */
+  .tab-group { margin: 1.5rem 0; }
+  .tab-buttons { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem; }
+  .tab-btn {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text2);
+    padding: 0.4rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.18s;
+  }
+  .tab-btn:hover, .tab-btn.active {
+    background: rgba(61,220,132,0.08);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .tab-pane { display: none; }
+  .tab-pane.active { display: block; }
+
+  /* ── SKILL METER ── */
+  .skill-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 0.6rem 0;
+  }
+  .skill-name {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--text2);
+    min-width: 130px;
+  }
+  .skill-bar {
+    flex: 1;
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .skill-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent2), var(--accent));
+    border-radius: 2px;
+    animation: grow 1.2s ease forwards;
+    transform-origin: left;
+  }
+  @keyframes grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  .skill-pct {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--muted);
+    min-width: 2.5rem;
+    text-align: right;
+  }
+
+  /* ── CHECKLIST ── */
+  .checklist { list-style: none; margin: 1rem 0; }
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.7rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.88rem;
+    color: var(--text);
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist li::before {
+    content: '▸';
+    color: var(--accent);
+    font-size: 0.75rem;
+    margin-top: 0.2rem;
+    flex-shrink: 0;
+  }
+
+  /* ── FOOTER ── */
+  #footer {
+    padding: 2rem 4rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    #sidebar { display: none; }
+    #main { margin-left: 0; }
+    #hero { padding: 3rem 2rem; }
+    .section { padding: 3rem 2rem; }
+    .hero-title { font-size: 2rem; }
+    #footer { flex-direction: column; gap: 0.5rem; padding: 1.5rem 2rem; }
+  }
+
+  /* ── SCROLL ANIMATIONS ── */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── SCOPE/LIMITS TABLE ── */
+  .pro-con {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  .pro-box, .con-box {
+    border-radius: 6px;
+    padding: 1.2rem;
+    border: 1px solid;
+  }
+  .pro-box {
+    background: rgba(61,220,132,0.04);
+    border-color: rgba(61,220,132,0.2);
+  }
+  .con-box {
+    background: rgba(245,194,66,0.04);
+    border-color: rgba(245,194,66,0.2);
+  }
+  .pro-box .box-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 0.8rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .con-box .box-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--warn);
+    margin-bottom: 0.8rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .box-item {
+    font-size: 0.83rem;
+    color: var(--text2);
+    padding: 0.3rem 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  .box-item::before { content: '→'; flex-shrink: 0; color: var(--muted); }
+
+  .scope-matrix {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+  }
+  .scope-row {
+    display: flex;
+    gap: 1rem;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--border);
+    align-items: flex-start;
+    font-size: 0.85rem;
+  }
+  .scope-row:last-child { border-bottom: none; }
+  .scope-key {
+    min-width: 130px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    padding-top: 0.1rem;
+  }
+  .scope-val { color: var(--text); flex: 1; }
+
+  @media (max-width: 640px) {
+    .pro-con { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<!-- ═══════════════ SIDEBAR ═══════════════ -->
+<nav id="sidebar">
+  <div class="sidebar-logo">
+    <div class="brand">Carbon Prep Kit</div>
+    <div class="sub">ENGIE S&EM — Stage 2025</div>
+  </div>
+
+  <span class="nav-section-label">Introduction</span>
+  <a class="nav-link" href="#intro">
+    <span class="nav-num">00</span> Vue d'ensemble du stage
+  </a>
+
+  <span class="nav-section-label">Contexte Groupe</span>
+  <a class="nav-link" href="#engie">
+    <span class="nav-num">01</span> ENGIE — Le Groupe
+  </a>
+  <a class="nav-link" href="#sem">
+    <span class="nav-num">02</span> La GBU S&EM
+  </a>
+
+  <span class="nav-section-label">Énergies & Marchés</span>
+  <a class="nav-link" href="#energies">
+    <span class="nav-num">03</span> Le mix énergétique S&EM
+  </a>
+  <a class="nav-link" href="#marches">
+    <span class="nav-num">04</span> Enjeux business & marchés
+  </a>
+
+  <span class="nav-section-label">Carbon Accounting</span>
+  <a class="nav-link" href="#carbon-basics">
+    <span class="nav-num">05</span> Fondamentaux carbone
+  </a>
+  <a class="nav-link" href="#carbon-advanced">
+    <span class="nav-num">06</span> Stades de maturité
+  </a>
+
+  <span class="nav-section-label">Compétences Data</span>
+  <a class="nav-link" href="#python">
+    <span class="nav-num">07</span> Python pour la mission
+  </a>
+  <a class="nav-link" href="#excel">
+    <span class="nav-num">08</span> Excel avancé
+  </a>
+  <a class="nav-link" href="#powerbi">
+    <span class="nav-num">09</span> Power BI
+  </a>
+
+  <span class="nav-section-label">Wrap-up</span>
+  <a class="nav-link" href="#jour1">
+    <span class="nav-num">10</span> Checklist Jour 1
+  </a>
+</nav>
+
+<!-- ═══════════════ MAIN ═══════════════ -->
+<div id="main">
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-eyebrow">Kit de préparation · Stage fin d'études · 6 mois</div>
+    <h1 class="hero-title">Junior <span>Carbon Operator</span><br>@ ENGIE S&EM</h1>
+    <p class="hero-desc">
+      Tout ce qu'il faut savoir avant le Jour 1 : contexte Groupe, enjeux énergétiques, 
+      carbon accounting, et maîtrise des outils data.
+    </p>
+    <div class="hero-meta">
+      <div class="meta-chip"><span class="dot"></span> Sustainability Dept · Carbon Accounting & Steering</div>
+      <div class="meta-chip">Paris · 6 mois</div>
+      <div class="meta-chip">Python · Power BI · Excel · DataIKU</div>
+    </div>
+  </section>
+
+  <!-- INTRO -->
+  <section class="section fade-in" id="intro">
+    <div class="section-header">
+      <span class="section-num">00</span>
+      <h2 class="section-title">Vue d'ensemble du <span class="accent">stage</span></h2>
+    </div>
+
+    <p>
+      Avant d'entrer dans le vif du sujet, il est utile de comprendre <strong>exactement ce que tu vas faire, 
+      dans quel contexte, et avec quelles contraintes.</strong> Ce stage est une création de poste : le Carbon 
+      Accounting & Steering Team est en train de <em>construire son expertise</em> — tu arrives dans 
+      une phase de construction, pas d'exploitation.
+    </p>
+
+    <div class="scope-matrix">
+      <div class="scope-row">
+        <span class="scope-key">Équipe</span>
+        <span class="scope-val">Sustainability Department → stream <strong>Carbon Accounting & Steering</strong>. Mix junior/senior, mode projet, forte autonomie.</span>
+      </div>
+      <div class="scope-row">
+        <span class="scope-key">Missions clés</span>
+        <span class="scope-val">① Digitalisation & automatisation du carbon accounting (outils, data quality, traceability) · ② Études stratégiques (recherche, collecte données, reporting)</span>
+      </div>
+      <div class="scope-row">
+        <span class="scope-key">Interlocuteurs</span>
+        <span class="scope-val">Business owners, carbon experts S&EM, équipes transverses (IT, Finance, Trading), potentiellement autres GBU ENGIE</span>
+      </div>
+      <div class="scope-row">
+        <span class="scope-key">Outils attendus</span>
+        <span class="scope-val">Python, Power BI, Excel, DataIKU, Jupyter Notebook</span>
+      </div>
+      <div class="scope-row">
+        <span class="scope-key">Livrable type</span>
+        <span class="scope-val">Outil de Carbon Accounting déployable, dashboards de pilotage, rapports/présentations clairs pour des non-spécialistes</span>
+      </div>
+    </div>
+
+    <h3>Opportunités du poste</h3>
+    <div class="pro-con">
+      <div class="pro-box">
+        <div class="box-title">✦ Points forts</div>
+        <div class="box-item">Sujet en construction → vraie création de valeur, pas juste de l'exécution</div>
+        <div class="box-item">Exposition à la Direction Développement Durable d'un groupe du CAC 40</div>
+        <div class="box-item">Compétence "carbon accounting" très recherchée dans la transition énergétique</div>
+        <div class="box-item">Mix tech (Python/DataIKU) + stratégie + réglementation : profil rare</div>
+        <div class="box-item">Réseau transverse dans l'ensemble de la GBU S&EM (19 pays)</div>
+        <div class="box-item">Potentiel d'embauche dans un domaine en forte croissance</div>
+      </div>
+      <div class="con-box">
+        <div class="box-title">⚠ Vigilances</div>
+        <div class="box-item">Périmètre de mission évolutif — importance de clarifier les priorités en amont</div>
+        <div class="box-item">Données carbone complexes à fiabiliser (qualité, traceability) : patience requise</div>
+        <div class="box-item">Poste à cheval entre tech et métier → risque de dispersion</div>
+        <div class="box-item">Environnement corporate avec cycles de validation longs</div>
+        <div class="box-item">Expertise réglementaire (CSRD, GHG Protocol) à acquérir rapidement</div>
+      </div>
+    </div>
+
+    <div class="alert alert-info">
+      <div class="alert-label">💡 Conseil stratégique</div>
+      Dès la première semaine, demande à ton manager de <strong>prioriser les deux ou trois chantiers 
+      concrets</strong> sur lesquels tu auras un livrable mesurable à 6 mois. Dans un poste en création, 
+      le risque est de passer du temps sur des sujets éparpillés. Un livrable clair = une valeur ajoutée visible.
+    </div>
+  </section>
+
+  <!-- ENGIE -->
+  <section class="section fade-in" id="engie">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2 class="section-title">ENGIE — <span class="accent">Le Groupe</span></h2>
+    </div>
+
+    <p>
+      ENGIE est un <strong>groupe énergétique mondial</strong> coté au CAC 40, présent dans 
+      31 pays, avec environ <strong>100 000 collaborateurs</strong>. Son activité couvre la 
+      production, la distribution et la commercialisation d'énergie, avec un pivot stratégique 
+      fort vers la <em>transition énergétique</em> depuis 2016.
+    </p>
+
+    <h3>Structure du Groupe</h3>
+    <p>ENGIE est organisé en <strong>Global Business Units (GBU)</strong>, chacune ayant son propre périmètre géographique et sectoriel :</p>
+
+    <div class="cards">
+      <div class="card">
+        <span class="card-icon">⚡</span>
+        <div class="card-title">Renewables</div>
+        <div class="card-body">Production d'énergies renouvelables (éolien, solaire, hydro). ENGIE est l'un des 5 premiers producteurs mondiaux d'ENR.</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">🔥</span>
+        <div class="card-title">Energy Solutions</div>
+        <div class="card-body">Services énergétiques aux entreprises et collectivités : réseaux de chaleur, efficacité énergétique, décentralisé.</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">🌐</span>
+        <div class="card-title">Networks</div>
+        <div class="card-body">Infrastructures de transport et distribution de gaz (GRTgaz, Elengy, réseau belge/brésilien).</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">📊</span>
+        <div class="card-title">S&EM (ton stage)</div>
+        <div class="card-body">Supply & Energy Management : trading, optimisation des actifs, fourniture B2B/B2C, solutions carbone.</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">🌊</span>
+        <div class="card-title">Flex Gen & Retail</div>
+        <div class="card-body">Production thermique flexible (CCG, nucléaire Belgique), retail grand public dans certains pays.</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">💧</span>
+        <div class="card-title">Nuclear</div>
+        <div class="card-body">Centrales nucléaires belges (Electrabel). Compétence clé pour le baseload décarboné en Europe.</div>
+      </div>
+    </div>
+
+    <h3>Stratégie "Impact 2026"</h3>
+    <p>
+      Le plan stratégique d'ENGIE cible la <strong>neutralité carbone à horizon 2045</strong> 
+      avec une étape intermédiaire à 2030. Les axes principaux :
+    </p>
+    <ul class="checklist">
+      <li><strong>Croissance dans les ENR</strong> : +4 GW/an de nouvelles capacités renouvelables</li>
+      <li><strong>Réduction des émissions scope 1 &amp; 2</strong> : -45% d'ici 2030 vs 2017</li>
+      <li><strong>Financement vert</strong> : obligations vertes et financement durable pour les projets d'infrastructure</li>
+      <li><strong>Carbon accounting</strong> : mesure systématique des émissions scope 3 (ta mission !)</li>
+      <li><strong>Solutions clients</strong> : accompagner 200 000+ clients B2B dans leur décarbonation</li>
+    </ul>
+
+    <div class="alert alert-info">
+      <div class="alert-label">📖 À lire avant le Jour 1</div>
+      Le Rapport de Durabilité annuel d'ENGIE (disponible sur engie.com) et le rapport 
+      <em>Climate Risk Report</em> : ils contiennent les cibles carbone officielles du Groupe et la 
+      méthodologie GHG que tu utiliseras probablement dans ta mission.
+    </div>
+
+    <h3>Chiffres clés à connaître</h3>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th>Indicateur</th><th>Valeur (≈ 2024)</th><th>Pourquoi c'est important</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Capacité installée</td><td>~100 GW</td><td>Périmètre d'actifs à optimiser pour S&EM</td></tr>
+          <tr><td>Part des ENR</td><td>~40 GW renouvelable</td><td>Trajectoire de décarbonation</td></tr>
+          <tr><td>Clients B2B</td><td>>200 000</td><td>Périmètre commercial de S&EM</td></tr>
+          <tr><td>CA Groupe</td><td>~82 Mds € (2023)</td><td>Contexte de la taille de l'entité</td></tr>
+          <tr><td>Émissions Scope 1</td><td>~70 Mt CO₂eq (2023)</td><td>Ta matière première en carbon accounting</td></tr>
+          <tr><td>Présence</td><td>31 pays</td><td>Complexité réglementaire multi-pays</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- S&EM -->
+  <section class="section fade-in" id="sem">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2 class="section-title">La GBU <span class="accent">S&EM</span></h2>
+    </div>
+
+    <p>
+      <strong>Supply & Energy Management</strong> est la GBU qui fait le lien entre les actifs 
+      de production d'ENGIE et les marchés de l'énergie, d'un côté, et les clients finaux, 
+      de l'autre. C'est le "cerveau commercial et financier" du groupe pour l'énergie.
+    </p>
+
+    <h3>Mission et positionnement</h3>
+    <p>S&EM opère selon un modèle <strong>"Glocal"</strong> : une coordination globale (trading, 
+    optimisation de portefeuille, risk management) avec une exécution locale (commercialisation 
+    dans chaque pays, gestion des actifs locaux).</p>
+
+    <div class="cards">
+      <div class="card">
+        <span class="card-icon">📐</span>
+        <div class="card-title">Optimisation d'actifs</div>
+        <div class="card-body">~60 GW d'actifs optimisés pour le Groupe : maximiser la valeur de chaque central, parc éolien, flexibilité.</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">🏪</span>
+        <div class="card-title">Fourniture B2B/B2C</div>
+        <div class="card-body">200 000+ clients industriels, PME, collectivités. Offres vertes, solutions de flexibilité, PPAs.</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">📉</span>
+        <div class="card-title">Risk Management</div>
+        <div class="card-body">Couverture des risques prix (énergie, carbone), volumétrie, liquidité sur les marchés de gros.</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">🌱</span>
+        <div class="card-title">Solutions vertes</div>
+        <div class="card-body">Biogaz, H₂, biomasse, mécanismes de compensation carbone, Garanties d'Origine. Ta BU est en pleine construction de son offre.</div>
+      </div>
+    </div>
+
+    <h3>Organisation de la Sustainability Dept (ton environnement)</h3>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-label">STREAM A</div>
+        <div class="tl-title">Sustainable Strategy</div>
+        <div class="tl-body">Stratégie durable, sparring partner pour le business, ambition ESG globale de S&EM.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-label">STREAM B — TON ÉQUIPE</div>
+        <div class="tl-title">Carbon Accounting & Steering</div>
+        <div class="tl-body">Développer l'expertise carbone comme position opérationnelle. Fournir formation, outils, processus pour piloter le "carbon budget" de S&EM. C'est ici que tu travailles.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-label">STREAM C</div>
+        <div class="tl-title">ESG — Environmental, Social & Governance</div>
+        <div class="tl-body">Responsabilité sur la chaîne de valeur, standards pour les personnes et la planète.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-label">STREAM D</div>
+        <div class="tl-title">Communication</div>
+        <div class="tl-body">Identité S&EM interne/externe, synergies communication-stratégie.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-label">STREAM E</div>
+        <div class="tl-title">Green Energy Acceleration</div>
+        <div class="tl-body">Déploiement ENR et actifs flexibles. Énergie décarbonée 24/7 pour S&EM et ses clients.</div>
+      </div>
+    </div>
+
+    <div class="alert alert-warn">
+      <div class="alert-label">⚠ Point d'attention</div>
+      La Sustainability Dept est <strong>transversale</strong> — elle ne produit pas d'énergie et ne vend pas 
+      directement. Elle <em>outille et pilote</em> les équipes business. Ta valeur ajoutée sera de 
+      rendre le pilotage carbone compréhensible et actionnable pour les traders, les commerciaux 
+      et les responsables de plateformes business qui n'ont pas ton background.
+    </div>
+  </section>
+
+  <!-- ENERGIES -->
+  <section class="section fade-in" id="energies">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2 class="section-title">Le mix énergétique <span class="accent">S&EM</span></h2>
+    </div>
+
+    <p>
+      S&EM couvre <strong>l'intégralité du mix énergétique</strong>. Pour chaque énergie, 
+      tu dois comprendre : les caractéristiques techniques, les émissions associées, 
+      et le positionnement commercial.
+    </p>
+
+    <div class="tab-group">
+      <div class="tab-buttons">
+        <button class="tab-btn active" onclick="switchTab(this, 'tab-gas')">Gaz & GNL</button>
+        <button class="tab-btn" onclick="switchTab(this, 'tab-power')">Électricité & ENR</button>
+        <button class="tab-btn" onclick="switchTab(this, 'tab-bio')">Biomasse & Biométhane</button>
+        <button class="tab-btn" onclick="switchTab(this, 'tab-h2')">Hydrogène & E-fuels</button>
+        <button class="tab-btn" onclick="switchTab(this, 'tab-carbon')">Marché carbone & GO</button>
+      </div>
+
+      <div class="tab-pane active" id="tab-gas">
+        <h4>Gaz naturel & GNL (Gaz Naturel Liquéfié)</h4>
+        <p>
+          Le gaz naturel reste une <strong>énergie de transition</strong> clé : plus faiblement carboné que le charbon 
+          (émissions ~0,2 tCO₂/MWh PCS vs ~0,35 pour le charbon), il permet la flexibilité du système électrique 
+          et assure la sécurité d'approvisionnement.
+        </p>
+        <h4>Technique</h4>
+        <ul class="checklist">
+          <li><strong>Composition</strong> : méthane (CH₄ ≈ 95%), éthane, propane. Pouvoir calorifique supérieur (PCS) ≈ 11,6 kWh/m³.</li>
+          <li><strong>GNL</strong> : gaz refroidi à -162°C pour liquéfaction. Transport maritime. Regasification dans les terminaux (ex : Fos-sur-Mer, Dunkerque pour la France).</li>
+          <li><strong>Méthane fugitif</strong> : problème majeur pour le bilan carbone — le CH₄ a un GWP100 de 28 (GIEC AR6). Mesurer les émissions fugitives est une mission carbone critique.</li>
+          <li><strong>Scope des émissions</strong> : combustion (scope 1 pour le client), production & transport (scope 3 upstream pour le fournisseur — c'est S&EM).</li>
+        </ul>
+        <h4>Business</h4>
+        <p>S&EM est l'un des plus grands traders de gaz en Europe. Le trading gaz/GNL génère des volumes 
+        de données massifs (prix spot, forward, positions). La valorisation carbone du portefeuille gaz 
+        est directement liée à ton travail de carbon accounting.</p>
+      </div>
+
+      <div class="tab-pane" id="tab-power">
+        <h4>Électricité — Marchés de gros & ENR</h4>
+        <p>
+          L'électricité n'a pas d'émission à la <em>consommation</em> (scope 1 = 0), mais son <em>intensité carbone 
+          varie fortement selon le mix de production</em> (coal vs ENR vs nucléaire).
+        </p>
+        <h4>Facteur d'émission électricité</h4>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Source</th><th>Émissions (gCO₂/kWh)</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td>Charbon</td><td>820–1 050</td><td>Énergie la plus carbonée</td></tr>
+              <tr><td>Gaz (CCGT)</td><td>400–490</td><td>Flexible, "back-up" ENR</td></tr>
+              <tr><td>Nucléaire</td><td>12</td><td>Quasi-zéro carbone en cycle de vie</td></tr>
+              <tr><td>Éolien off-shore</td><td>15</td><td>Meilleur ratio ENR en cycle de vie</td></tr>
+              <tr><td>Solaire PV</td><td>20–50</td><td>Variable selon technologie/pays</td></tr>
+              <tr><td>Hydraulique</td><td>4–30</td><td>Très faible, variable selon site</td></tr>
+              <tr><td>Mix France (2024)</td><td>~50</td><td>Grâce au nucléaire — l'un des plus bas d'Europe</td></tr>
+              <tr><td>Mix EU moyen (2024)</td><td>~230</td><td>Référence pour les calculs scope 2</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h4>Concept clé : Scope 2 Market-based vs Location-based</h4>
+        <p>
+          Pour le carbon accounting, les émissions d'électricité se calculent de deux façons :
+          <strong>location-based</strong> (facteur d'émission moyen du réseau national) vs 
+          <strong>market-based</strong> (facteur d'émission de l'électricité <em>réellement achetée</em>, 
+          via Garanties d'Origine ou PPAs). Tu travailleras probablement avec ces deux approches.
+        </p>
+      </div>
+
+      <div class="tab-pane" id="tab-bio">
+        <h4>Biomasse & Biométhane</h4>
+        <p>
+          Ce sont des <strong>énergies bas-carbone mais pas zéro carbone</strong> — un point crucial 
+          pour le carbon accounting.
+        </p>
+        <h4>Biomasse</h4>
+        <ul class="checklist">
+          <li>Combustion de matière organique (bois, déchets agricoles). Émissions CO₂ à la combustion considérées comme <em>neutres si la biomasse est durable</em> (cycle carbone fermé).</li>
+          <li>Critère de durabilité (directive RED II) : réduction de 70% des émissions vs fossile.</li>
+          <li>Facteur d'émission biogénique ≠ facteur fossile : distinction critique en GHG Protocol.</li>
+        </ul>
+        <h4>Biométhane</h4>
+        <ul class="checklist">
+          <li>Méthane produit par méthanisation de déchets organiques ou gazéification de biomasse.</li>
+          <li>Injecté dans le réseau de gaz — substitution directe au gaz naturel fossile.</li>
+          <li>Bilan carbone : légèrement négatif à positif selon la filière (évitement des émissions de méthane des déchets).</li>
+          <li>Certificats de biométhane ("biomethane certificates") = équivalent des Garanties d'Origine pour le gaz vert.</li>
+        </ul>
+      </div>
+
+      <div class="tab-pane" id="tab-h2">
+        <h4>Hydrogène & Low-Carbon Fuels</h4>
+        <p>
+          L'hydrogène est stratégique pour S&EM mais encore en phase de développement commercial. 
+          Sa valeur carbone dépend entièrement de son mode de production.
+        </p>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Couleur</th><th>Production</th><th>Émissions CO₂</th><th>Statut</th></tr></thead>
+            <tbody>
+              <tr><td>🔵 Bleu</td><td>Vaporeformage + CCS</td><td>Très faibles</td><td>Commercial, coûteux</td></tr>
+              <tr><td>🟢 Vert</td><td>Électrolyse (ENR)</td><td>Quasi-zéro</td><td>Croissance rapide</td></tr>
+              <tr><td>🩶 Gris</td><td>Vaporeformage sans CCS</td><td>~10 tCO₂/tH₂</td><td>Dominant aujourd'hui</td></tr>
+              <tr><td>🟤 Brun</td><td>Gazéification charbon</td><td>Très élevées</td><td>À éviter</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h4>Low-Carbon Fuels (LCF)</h4>
+        <p>Inclut les e-fuels (carburants de synthèse produits avec électricité verte + CO₂ capturé), 
+        les biocarburants avancés. Secteur clé pour la décarbonation du maritime et de l'aviation — 
+        clientèle B2B de S&EM.</p>
+      </div>
+
+      <div class="tab-pane" id="tab-carbon">
+        <h4>Marchés carbone & Garanties d'Origine</h4>
+        <h4>EU ETS (Système d'Échange de Quotas)</h4>
+        <ul class="checklist">
+          <li>Prix carbone EU ETS (EUA) : ~60–80 €/tCO₂ en 2024 (très volatile).</li>
+          <li>S&EM trade des EUAs pour le compte du Groupe et de clients industriels soumis à l'ETS.</li>
+          <li>Mécanisme : cap & trade. Le plafond diminue de ~2,2%/an → hausse tendancielle du prix.</li>
+          <li>Nouveau : EU ETS 2 (ETS pour le bâtiment et transport routier) → démarrage 2027.</li>
+        </ul>
+        <h4>Garanties d'Origine (GO)</h4>
+        <ul class="checklist">
+          <li>Certificats prouvant qu'1 MWh d'électricité a été produit par une source renouvelable identifiée.</li>
+          <li>Découplées du flux physique : un client en Allemagne peut acheter de l'électricité grise + des GO suédoises → claim "100% vert".</li>
+          <li>Valeur : 0,5 à 5 €/MWh selon source, millésime, pays.</li>
+          <li>Utilisées pour le calcul scope 2 market-based. Attention au "greenwashing" — débat sur leur réelle additivité.</li>
+        </ul>
+        <h4>Crédits carbone volontaires (VCM)</h4>
+        <p>Hors ETS — marché de compensation pour les entreprises cherchant la neutralité carbone. 
+        Standards : Gold Standard, VCS (Verra), REDD+. S&EM développe des offres de compensation 
+        pour ses clients B2B.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARCHÉS -->
+  <section class="section fade-in" id="marches">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2 class="section-title">Enjeux <span class="accent">business & marchés</span></h2>
+    </div>
+
+    <h3>Réglementation à connaître impérativement</h3>
+
+    <div class="cards">
+      <div class="card">
+        <span class="card-icon">📋</span>
+        <div class="card-title">CSRD</div>
+        <div class="card-body"><strong>Corporate Sustainability Reporting Directive</strong>. Oblige ENGIE à publier un reporting ESG détaillé incluant les émissions scope 1, 2 et 3 selon les normes ESRS. En vigueur progressivement depuis 2024.</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">🌿</span>
+        <div class="card-title">Taxinomie EU</div>
+        <div class="card-body">Classifie les activités économiques comme "durables" ou non. Impact direct sur l'accès au financement vert. S&EM doit démontrer l'alignement de ses activités.</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">⚖️</span>
+        <div class="card-title">CBAM</div>
+        <div class="card-body"><strong>Carbon Border Adjustment Mechanism</strong>. Taxe carbone aux frontières EU sur les importations d'acier, ciment, engrais, aluminium, électricité, H₂. Démarrage 2026. Impact sur les clients industriels S&EM.</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">🎯</span>
+        <div class="card-title">SBTi Net-Zéro</div>
+        <div class="card-body">ENGIE a soumis ses cibles au <em>Science Based Targets initiative</em>. Implique une réduction scope 3 structurée — c'est ce que ton équipe doit mesurer et piloter.</div>
+      </div>
+    </div>
+
+    <h3>Dynamiques de marché clés</h3>
+    <ul class="checklist">
+      <li><strong>Volatilité des prix énergie</strong> : depuis 2021 (crise gaz, guerre Ukraine), les prix spot et forward gaz/électricité sont extrêmement volatils → la valorisation du portefeuille carbone est impactée.</li>
+      <li><strong>Électrification des usages</strong> : forte croissance de la demande électrique (véhicules électriques, pompes à chaleur, data centers IA) → nouveaux clients B2B pour S&EM.</li>
+      <li><strong>"24/7 Carbon-Free Energy"</strong> : les grands clients tech (Google, Microsoft) veulent de l'électricité verte heure par heure, pas en moyenne annuelle → nouveaux produits et outils de matching.</li>
+      <li><strong>Réforme marché électricité EU (2024)</strong> : contrats différentiels (CFDs) pour les ENR → stabilisation des revenus producteurs, impact sur le trading.</li>
+    </ul>
+  </section>
+
+  <!-- CARBON BASICS -->
+  <section class="section fade-in" id="carbon-basics">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <h2 class="section-title">Fondamentaux du <span class="accent">Carbon Accounting</span></h2>
+    </div>
+
+    <p>
+      Le carbon accounting (comptabilité carbone) est le processus de <strong>mesure, rapportage 
+      et vérification des émissions de gaz à effet de serre</strong> d'une organisation. C'est 
+      le cœur de ta mission.
+    </p>
+
+    <h3>Les GES et leurs équivalences</h3>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Gaz</th><th>Symbole</th><th>GWP100 (AR6)</th><th>Principale source</th></tr></thead>
+        <tbody>
+          <tr><td>Dioxyde de carbone</td><td>CO₂</td><td>1 (référence)</td><td>Combustion fossile</td></tr>
+          <tr><td>Méthane</td><td>CH₄</td><td>27,9</td><td>Gaz naturel fugitif, agriculture</td></tr>
+          <tr><td>Protoxyde d'azote</td><td>N₂O</td><td>273</td><td>Agriculture, engrais</td></tr>
+          <tr><td>HFC</td><td>HFCs</td><td>1 000–14 800</td><td>Réfrigération, climatisation</td></tr>
+          <tr><td>Hexafluorure de soufre</td><td>SF₆</td><td>25 200</td><td>Équipements électriques HT</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Tout se convertit en <strong>tCO₂ équivalent (tCO₂eq)</strong> via le GWP (Global Warming Potential).</p>
+
+    <h3>Le GHG Protocol — La référence mondiale</h3>
+    <p>
+      Le <em>Greenhouse Gas Protocol</em> (GHGP) est le standard de comptabilité carbone le plus 
+      utilisé au monde. Il définit les <strong>3 scopes d'émissions</strong> :
+    </p>
+
+    <div class="scope-matrix">
+      <div class="scope-row">
+        <span class="scope-key">🔴 Scope 1</span>
+        <span class="scope-val"><strong>Émissions directes</strong> — combustion dans les installations propres de l'entreprise, fuites de gaz réfrigérant, flotte de véhicules. Pour S&EM : émissions des centrales thermiques optimisées.</span>
+      </div>
+      <div class="scope-row">
+        <span class="scope-key">🟡 Scope 2</span>
+        <span class="scope-val"><strong>Émissions indirectes — énergie achetée</strong>. Électricité, vapeur, chaleur achetée à des tiers. Deux méthodes : location-based (mix réseau national) vs market-based (GO, PPAs). S&EM en tant que vendeur d'électricité est en scope 3 de ses clients.</span>
+      </div>
+      <div class="scope-row">
+        <span class="scope-key">🔵 Scope 3</span>
+        <span class="scope-val"><strong>Toutes les autres émissions indirectes</strong> dans la chaîne de valeur. Pour S&EM : émissions liées à l'utilisation du gaz vendu aux clients (catégorie 11 "Use of sold products") → énorme et difficile à mesurer.</span>
+      </div>
+    </div>
+
+    <h3>Les 15 catégories du Scope 3</h3>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>#</th><th>Catégorie</th><th>Pertinence S&EM</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Biens & services achetés</td><td>Moyenne</td></tr>
+          <tr><td>2</td><td>Biens d'équipement</td><td>Faible</td></tr>
+          <tr><td>3</td><td>Activités liées à l'énergie (non scope 1/2)</td><td><strong>Élevée</strong> — extraction, raffinage du gaz acheté</td></tr>
+          <tr><td>4</td><td>Transport amont</td><td>Moyenne — transport GNL</td></tr>
+          <tr><td>5</td><td>Déchets générés</td><td>Faible</td></tr>
+          <tr><td>6</td><td>Voyages professionnels</td><td>Faible</td></tr>
+          <tr><td>7</td><td>Mobilité domicile-travail</td><td>Faible</td></tr>
+          <tr><td>8</td><td>Actifs loués (amont)</td><td>Moyenne</td></tr>
+          <tr><td>9</td><td>Transport aval</td><td>Faible</td></tr>
+          <tr><td>10</td><td>Traitement des produits vendus</td><td>Faible</td></tr>
+          <tr><td>11</td><td><strong>Utilisation des produits vendus</strong></td><td><strong>🔴 Critique</strong> — combustion du gaz vendu par les clients</td></tr>
+          <tr><td>12</td><td>Fin de vie des produits vendus</td><td>Faible</td></tr>
+          <tr><td>13</td><td>Actifs loués (aval)</td><td>Faible</td></tr>
+          <tr><td>14</td><td>Franchises</td><td>Non applicable</td></tr>
+          <tr><td>15</td><td>Investissements</td><td>Moyenne — participations dans des actifs carbonés</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Analyse du Cycle de Vie (ACV / LCA)</h3>
+    <p>
+      L'ACV mesure les émissions <em>sur l'ensemble du cycle de vie</em> d'un produit énergétique : 
+      extraction → transformation → transport → combustion → fin de vie. C'est l'approche la plus 
+      rigoureuse pour comparer des vecteurs énergétiques (ex : H₂ vert vs gaz naturel).
+    </p>
+    <p>
+      Pour S&EM, l'ACV est utilisée pour qualifier les offres vertes (biométhane, H₂, électricité) 
+      et éviter le greenwashing. La norme de référence est <strong>ISO 14040/14044</strong>.
+    </p>
+
+    <h3>Formule de base</h3>
+    <pre><code>Émissions (tCO₂eq) = Activité × Facteur d'émission × GWP
+
+Exemple :
+  Vente de 100 GWh de gaz naturel (PCI)
+  FE gaz naturel : 0,2014 tCO₂/MWh (SNBC 2023)
+  → Émissions scope 3 cat.11 = 100 000 MWh × 0,2014 = 20 140 tCO₂eq</code></pre>
+
+    <div class="alert alert-info">
+      <div class="alert-label">📚 Ressources fondamentales</div>
+      GHG Protocol Corporate Standard (gratuit sur ghgprotocol.org) · Base Carbone de l'ADEME 
+      (facteurs d'émission FR) · IPCC AR6 (GWP actualisés) · Norme ISO 14064.
+    </div>
+  </section>
+
+  <!-- CARBON ADVANCED -->
+  <section class="section fade-in" id="carbon-advanced">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <h2 class="section-title">Stades de maturité du <span class="accent">Carbon Accounting</span></h2>
+    </div>
+
+    <p>
+      Un outil ou un processus de carbon accounting peut être positionné sur un 
+      <strong>spectre de maturité</strong>. Comprendre ce spectre est essentiel pour 
+      savoir où S&EM en est et vers quoi tu vas contribuer à les amener.
+    </p>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-label">STADE 1 — INVENTAIRE</div>
+        <div class="tl-title">Identification & collecte ad hoc</div>
+        <div class="tl-body">
+          L'entreprise fait un premier bilan carbone en collectant manuellement des données 
+          par email/Excel. Périmètre partiel (scope 1/2 uniquement). Qualité faible, 
+          non-reproductible d'une année à l'autre. <strong>Point de départ de beaucoup d'entreprises.</strong>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-label">STADE 2 — SYSTÉMATISATION</div>
+        <div class="tl-title">Processus annuel reproductible</div>
+        <div class="tl-body">
+          Périmètre complet (scopes 1, 2, 3 principal). Facteurs d'émission documentés. 
+          Processus de collecte formalisé avec des contributeurs identifiés. Reporting 
+          annuel stable. <strong>Objectif CSRD minimum.</strong>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-label">STADE 3 — PILOTAGE</div>
+        <div class="tl-title">Carbon budgeting & steering intra-année</div>
+        <div class="tl-body">
+          Le carbon accounting devient <em>un outil de pilotage opérationnel</em>, pas seulement de 
+          reporting. Des "carbon budgets" sont alloués aux plateformes business. Les écarts 
+          sont suivis en cours d'année. <strong>C'est le niveau que S&EM veut atteindre — et ta mission.</strong>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-label">STADE 4 — INTÉGRATION</div>
+        <div class="tl-title">Carbon accounting intégré aux décisions business</div>
+        <div class="tl-body">
+          Le "prix interne du carbone" est intégré aux décisions d'investissement, 
+          aux offres commerciales, aux rémunérations des managers. Les données carbone 
+          alimentent en temps quasi-réel les systèmes de gestion.
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-label">STADE 5 — AUTOMATISATION FULL</div>
+        <div class="tl-title">Carbon data platform & API</div>
+        <div class="tl-body">
+          Plateforme de données carbone connectée aux systèmes ERP/trading. Calcul 
+          automatique des émissions par transaction, par client, par produit. IA pour 
+          la détection d'anomalies et la prévision. <strong>Horizon 3-5 ans pour les leaders.</strong>
+        </div>
+      </div>
+    </div>
+
+    <h3>Défis techniques spécifiques à S&EM</h3>
+    <div class="cards">
+      <div class="card">
+        <span class="card-icon">📦</span>
+        <div class="card-title">Granularité des données</div>
+        <div class="card-body">S&EM vend des millions de MWh à des milliers de clients. Calculer les émissions par contrat, par produit, par pays nécessite une infrastructure data robuste.</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">🌍</span>
+        <div class="card-title">Multi-pays, multi-réglementation</div>
+        <div class="card-body">Les facteurs d'émission, les méthodes (location vs market-based), et les obligations légales varient par pays. Harmoniser sans perdre en précision.</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">🔄</span>
+        <div class="card-title">Double comptage</div>
+        <div class="card-body">Quand S&EM vend du gaz à un industriel, les émissions de combustion sont scope 3 cat.11 pour S&EM ET scope 1 pour l'industriel. Éviter le double comptage dans les agrégats Groupe.</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">⏱️</span>
+        <div class="card-title">Temporalité</div>
+        <div class="card-body">Les données d'activité (volumes vendus) arrivent en J+1 ou J+30. Les facteurs d'émission sont mis à jour annuellement. Synchroniser les deux pour un carbon budget intra-année.</div>
+      </div>
+    </div>
+
+    <h3>Carbon Budgeting — Le concept clé</h3>
+    <p>
+      Un <strong>carbon budget</strong> est un plafond d'émissions alloué à une entité (GBU, 
+      plateforme, desk) pour une période donnée. Analogie : c'est comme un budget financier, 
+      mais en tCO₂eq au lieu d'euros.
+    </p>
+    <pre><code># Exemple de structure de carbon budget S&EM
+Budget annuel S&EM : 500 000 tCO₂eq scope 3 cat.11
+
+→ Plateforme France     : 120 000 tCO₂eq
+→ Plateforme Benelux    :  80 000 tCO₂eq
+→ Plateforme Espagne    :  60 000 tCO₂eq
+→ Gaz Trading (desk)   : 200 000 tCO₂eq
+→ LNG Trading           :  40 000 tCO₂eq
+
+Suivi mensuel → alerte si dépassement > 10%
+Fin d'année → reporting vs budget + analyse d'écarts</code></pre>
+  </section>
+
+  <!-- PYTHON -->
+  <section class="section fade-in" id="python">
+    <div class="section-header">
+      <span class="section-num">07</span>
+      <h2 class="section-title"><span class="accent">Python</span> pour la mission</h2>
+    </div>
+
+    <p>
+      Python sera ton outil principal pour la manipulation de données, l'automatisation 
+      des calculs carbone et la construction de pipelines. Voici les fondamentaux 
+      <em>spécifiquement utiles pour cette mission</em>.
+    </p>
+
+    <h3>Niveau requis</h3>
+    <div class="skill-row"><span class="skill-name">pandas</span><div class="skill-bar"><div class="skill-fill" style="width:90%"></div></div><span class="skill-pct">indispensable</span></div>
+    <div class="skill-row"><span class="skill-name">numpy</span><div class="skill-bar"><div class="skill-fill" style="width:70%"></div></div><span class="skill-pct">important</span></div>
+    <div class="skill-row"><span class="skill-name">matplotlib/plotly</span><div class="skill-bar"><div class="skill-fill" style="width:65%"></div></div><span class="skill-pct">important</span></div>
+    <div class="skill-row"><span class="skill-name">openpyxl/xlrd</span><div class="skill-bar"><div class="skill-fill" style="width:60%"></div></div><span class="skill-pct">utile</span></div>
+    <div class="skill-row"><span class="skill-name">sqlalchemy / SQL</span><div class="skill-bar"><div class="skill-fill" style="width:55%"></div></div><span class="skill-pct">utile</span></div>
+    <div class="skill-row"><span class="skill-name">Jupyter Notebook</span><div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div><span class="skill-pct">indispensable</span></div>
+    <div class="skill-row"><span class="skill-name">DataIKU (DSS)</span><div class="skill-bar"><div class="skill-fill" style="width:50%"></div></div><span class="skill-pct">à apprendre</span></div>
+
+    <h3>Patterns Python typiques pour le carbon accounting</h3>
+
+    <h4>1. Calculer les émissions depuis un DataFrame de volumes</h4>
+    <pre><code>import pandas as pd
+
+# Données de ventes (volumes en MWh)
+df = pd.read_excel("volumes_vendus_2024.xlsx")
+
+# Facteurs d'émission par énergie (tCO2eq/MWh)
+emission_factors = {
+    "gaz_naturel":   0.2014,  # ADEME Base Carbone
+    "electricite_fr": 0.0052, # mix FR 2024
+    "biogaz":         0.0230,
+    "GNL":            0.2330,
+}
+
+df["FE"] = df["energie"].map(emission_factors)
+df["emissions_tCO2eq"] = df["volume_MWh"] * df["FE"]
+
+# Agrégation par plateforme et énergie
+resume = df.groupby(["plateforme", "energie"])["emissions_tCO2eq"].sum()
+print(resume)</code></pre>
+
+    <h4>2. Nettoyage et qualité des données</h4>
+    <pre><code># Détecter les valeurs manquantes et les anomalies
+print(df.isnull().sum())
+
+# Identifier les lignes sans facteur d'émission
+sans_fe = df[df["FE"].isna()]
+print(f"⚠ {len(sans_fe)} lignes sans facteur d'émission")
+
+# Détecter les outliers (IQR method)
+Q1 = df["volume_MWh"].quantile(0.25)
+Q3 = df["volume_MWh"].quantile(0.75)
+IQR = Q3 - Q1
+outliers = df[(df["volume_MWh"] < Q1 - 1.5*IQR) | 
+              (df["volume_MWh"] > Q3 + 1.5*IQR)]</code></pre>
+
+    <h4>3. Suivi du carbon budget (intra-année)</h4>
+    <pre><code># Budget mensuel par plateforme
+budget = pd.DataFrame({
+    "plateforme": ["France", "Benelux", "Espagne", "GazTrading"],
+    "budget_annuel_tCO2": [120000, 80000, 60000, 200000],
+})
+budget["budget_mensuel"] = budget["budget_annuel_tCO2"] / 12
+
+# Réel du mois
+reel = df[df["mois"] == "2024-03"].groupby("plateforme")["emissions_tCO2eq"].sum().reset_index()
+reel.columns = ["plateforme", "reel_tCO2"]
+
+# Fusion et calcul d'écart
+suivi = budget.merge(reel, on="plateforme")
+suivi["ecart_pct"] = (suivi["reel_tCO2"] - suivi["budget_mensuel"]) / suivi["budget_mensuel"] * 100
+suivi["alerte"] = suivi["ecart_pct"] > 10  # Alerte si +10%</code></pre>
+
+    <h4>4. Export vers Excel pour reporting</h4>
+    <pre><code">with pd.ExcelWriter("carbon_report_mars2024.xlsx", engine="openpyxl") as writer:
+    suivi.to_excel(writer, sheet_name="Suivi Budget", index=False)
+    resume.reset_index().to_excel(writer, sheet_name="Détail par Énergie", index=False)
+    df.to_excel(writer, sheet_name="Données brutes", index=False)
+print("✅ Rapport exporté")</code></pre>
+
+    <h3>DataIKU (Dataiku DSS)</h3>
+    <p>
+      DataIKU est la plateforme MLOps/data pipeline utilisée par ENGIE. Elle permet de 
+      créer des pipelines de données visuellement ou en Python/SQL, de <strong>scheduleriser 
+      des calculs automatiquement</strong>, et de déployer des modèles en production.
+    </p>
+    <ul class="checklist">
+      <li>Les <strong>Recipes</strong> DataIKU = des étapes de transformation (Python recipe, SQL recipe, Visual recipe)</li>
+      <li>Les <strong>Datasets</strong> = des tables/fichiers de données (Excel, SQL, S3, etc.)</li>
+      <li>Les <strong>Flows</strong> = le graphe de transformation bout-en-bout — visuellement très lisible pour les non-tech</li>
+      <li>Les <strong>Dashboards</strong> = visualisations intégrées, sans avoir besoin de Power BI séparé</li>
+    </ul>
+
+    <h3>Ressources Python recommandées</h3>
+    <div class="resources">
+      <a class="resource-item" href="https://pandas.pydata.org/docs/getting_started/intro_tutorials/" target="_blank">
+        <span class="resource-badge badge-doc">DOC</span>
+        <div class="resource-content">
+          <div class="resource-title">Pandas — Getting Started Tutorials</div>
+          <div class="resource-desc">Tutoriel officiel, le plus complet. Commencer par "10 minutes to pandas" puis les sections sur le groupby et merge.</div>
+          <div class="resource-url">pandas.pydata.org/docs/getting_started/intro_tutorials</div>
+        </div>
+      </a>
+      <a class="resource-item" href="https://www.youtube.com/watch?v=vmEHCJofslg" target="_blank">
+        <span class="resource-badge badge-vid">VIDÉO</span>
+        <div class="resource-content">
+          <div class="resource-title">Pandas Tutorial — Keith Galli (YouTube)</div>
+          <div class="resource-desc">Référence YouTube sur pandas — 1h30 complète et pratique. Idéal pour réviser rapidement les fondamentaux en contexte data analysis.</div>
+          <div class="resource-url">youtube.com/watch?v=vmEHCJofslg</div>
+        </div>
+      </a>
+      <a class="resource-item" href="https://realpython.com/pandas-groupby/" target="_blank">
+        <span class="resource-badge badge-doc">ARTICLE</span>
+        <div class="resource-content">
+          <div class="resource-title">Real Python — Pandas GroupBy</div>
+          <div class="resource-desc">Le groupby est central pour agréger des émissions par plateforme, énergie, période. Cet article est la référence pour le maîtriser.</div>
+          <div class="resource-url">realpython.com/pandas-groupby</div>
+        </div>
+      </a>
+      <a class="resource-item" href="https://doc.dataiku.com/dss/latest/python-api/index.html" target="_blank">
+        <span class="resource-badge badge-doc">DOC</span>
+        <div class="resource-content">
+          <div class="resource-title">DataIKU DSS — Documentation officielle</div>
+          <div class="resource-desc">API Python DataIKU. Commencer par "Python recipes" et "Datasets API". La section "Flow" est aussi utile pour comprendre l'architecture.</div>
+          <div class="resource-url">doc.dataiku.com/dss/latest/python-api</div>
+        </div>
+      </a>
+      <a class="resource-item" href="https://www.coursera.org/learn/python-data-analysis" target="_blank">
+        <span class="resource-badge badge-course">COURS</span>
+        <div class="resource-content">
+          <div class="resource-title">Applied Data Science with Python — Coursera (Michigan)</div>
+          <div class="resource-desc">Cours certifiant sérieux si tu veux solidifier les bases. Module 1 (pandas) est particulièrement bien structuré. Audit gratuit possible.</div>
+          <div class="resource-url">coursera.org/learn/python-data-analysis</div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- EXCEL -->
+  <section class="section fade-in" id="excel">
+    <div class="section-header">
+      <span class="section-num">08</span>
+      <h2 class="section-title"><span class="accent">Excel</span> avancé</h2>
+    </div>
+
+    <p>
+      Excel reste incontournable dans l'environnement corporate — pour les templates de 
+      reporting, les partages avec des contributeurs non-tech, et le prototypage rapide. 
+      Voici les fonctionnalités essentielles pour ta mission.
+    </p>
+
+    <h3>Fonctions à maîtriser</h3>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Fonction</th><th>Usage dans ta mission</th><th>Priorité</th></tr></thead>
+        <tbody>
+          <tr><td><code>XLOOKUP / RECHERCHEV</code></td><td>Mapper des facteurs d'émission à des codes énergie</td><td>🔴 Critique</td></tr>
+          <tr><td><code>SUMIF / SUMIFS</code></td><td>Agréger des émissions par plateforme + mois + énergie</td><td>🔴 Critique</td></tr>
+          <tr><td><code>INDEX/MATCH</code></td><td>Recherche bidirectionnelle dans des tables de données</td><td>🟡 Important</td></tr>
+          <tr><td><code>IFERROR</code></td><td>Gérer les erreurs quand un FE est manquant (≠ #N/A)</td><td>🟡 Important</td></tr>
+          <tr><td><code>TABLEAU CROISÉ DYNAMIQUE</code></td><td>Résumer les émissions par dimension en quelques clics</td><td>🔴 Critique</td></tr>
+          <tr><td><code>Power Query</code></td><td>Nettoyer et transformer des données brutes avant calcul</td><td>🟡 Important</td></tr>
+          <tr><td><code>Validation de données</code></td><td>Créer des menus déroulants pour les saisies manuelles</td><td>🟢 Utile</td></tr>
+          <tr><td><code>Mise en forme conditionnelle</code></td><td>Alertes visuelles sur les dépassements de budget</td><td>🟢 Utile</td></tr>
+          <tr><td><code>SPARKLINES</code></td><td>Mini-graphiques d'évolution dans les tableaux de bord</td><td>🟢 Utile</td></tr>
+          <tr><td><code>Macros VBA basiques</code></td><td>Automatiser des exports / rafraîchissements</td><td>🟢 Utile</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Modèle Excel type pour le carbon budgeting</h3>
+    <pre><code>Feuille 1 : "FE_Reference"
+  | Code_Energie | Libellé        | FE (tCO2/MWh) | Source | Dernière MAJ |
+  | GAZ_FR       | Gaz naturel FR | 0.2014        | ADEME  | 2024-01      |
+  | ELEC_FR      | Élec. France   | 0.0052        | RTE    | 2024-01      |
+  ...
+
+Feuille 2 : "Données_Brutes"
+  | Mois | Plateforme | Code_Energie | Volume_MWh | [Calcul auto → tCO2eq] |
+
+Feuille 3 : "Budget_Suivi"
+  | Plateforme | Budget_annuel | Budget_mois | Réel_M | Écart% | Statut |
+  → Mise en forme conditionnelle sur Écart% (vert/orange/rouge)
+
+Feuille 4 : "Dashboard"
+  → TCD + graphiques consolidés pour le management</code></pre>
+
+    <h3>Ressources Excel</h3>
+    <div class="resources">
+      <a class="resource-item" href="https://support.microsoft.com/fr-fr/excel" target="_blank">
+        <span class="resource-badge badge-doc">DOC</span>
+        <div class="resource-content">
+          <div class="resource-title">Microsoft Support Excel — Fonctions officielles</div>
+          <div class="resource-desc">Référence officielle pour chaque fonction. Utiliser la recherche directement pour XLOOKUP, SUMIFS, TCD.</div>
+          <div class="resource-url">support.microsoft.com/fr-fr/excel</div>
+        </div>
+      </a>
+      <a class="resource-item" href="https://www.youtube.com/c/ExcelIsFun" target="_blank">
+        <span class="resource-badge badge-vid">VIDÉO</span>
+        <div class="resource-content">
+          <div class="resource-title">ExcelIsFun — Mike Girvin (YouTube)</div>
+          <div class="resource-desc">La chaîne YouTube de référence sur Excel. Des milliers de tutoriels sur Power Query, TCD, fonctions avancées. Qualité exceptionnelle.</div>
+          <div class="resource-url">youtube.com/c/ExcelIsFun</div>
+        </div>
+      </a>
+      <a class="resource-item" href="https://support.microsoft.com/fr-fr/office/mise-en-route-de-power-query-1d1cdadf-22c0-4d0e-81c4-ebff82dc5213" target="_blank">
+        <span class="resource-badge badge-doc">DOC</span>
+        <div class="resource-content">
+          <div class="resource-title">Power Query — Guide de démarrage Microsoft</div>
+          <div class="resource-desc">Power Query est essentiel pour importer et nettoyer des données hétérogènes (différents formats de fichiers de volumes selon les pays).</div>
+          <div class="resource-url">support.microsoft.com → Power Query</div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- POWER BI -->
+  <section class="section fade-in" id="powerbi">
+    <div class="section-header">
+      <span class="section-num">09</span>
+      <h2 class="section-title"><span class="accent">Power BI</span></h2>
+    </div>
+
+    <p>
+      Power BI sera ton outil de <strong>visualisation et de reporting</strong> pour les dashboards 
+      de suivi carbone destinés aux équipes business et au management. La maîtrise de Power BI 
+      = transformer des données carbone brutes en <em>insights actionnables</em>.
+    </p>
+
+    <h3>Architecture Power BI à comprendre</h3>
+    <div class="scope-matrix">
+      <div class="scope-row">
+        <span class="scope-key">Power Query (ETL)</span>
+        <span class="scope-val">Connexion aux sources de données (Excel, SQL, SharePoint, API), nettoyage et transformation des données avant modélisation. Language M.</span>
+      </div>
+      <div class="scope-row">
+        <span class="scope-key">Modèle de données</span>
+        <span class="scope-val">Relations entre tables (fait/dimension). Crucial pour un bon modèle carbone : table de faits Émissions + dimensions Temps, Plateforme, Énergie, Région.</span>
+      </div>
+      <div class="scope-row">
+        <span class="scope-key">DAX (calculs)</span>
+        <span class="scope-val">Langage de formule Power BI. Indispensable pour les calculs dynamiques : % budget consommé, YTD, comparaison vs N-1.</span>
+      </div>
+      <div class="scope-row">
+        <span class="scope-key">Visuels & Rapports</span>
+        <span class="scope-val">Graphiques, cartes géographiques, KPI cards, matrices. Design du dashboard final pour les décideurs.</span>
+      </div>
+      <div class="scope-row">
+        <span class="scope-key">Power BI Service</span>
+        <span class="scope-val">Publication et partage en ligne. Actualisation automatique. Création d'alertes sur des seuils (dépassement budget carbone).</span>
+      </div>
+    </div>
+
+    <h3>DAX essentiels pour le carbon accounting</h3>
+    <pre><code>// Émissions totales
+Total Emissions = SUM(Emissions[tCO2eq])
+
+// Émissions cumulées depuis le début de l'année (YTD)
+Emissions YTD = 
+    CALCULATE(
+        [Total Emissions],
+        DATESYTD(Calendrier[Date])
+    )
+
+// % du budget annuel consommé
+Budget Consommé % = 
+    DIVIDE([Emissions YTD], SUM(Budget[Budget_Annuel_tCO2]), 0)
+
+// Comparaison N-1
+Emissions N-1 = 
+    CALCULATE(
+        [Total Emissions],
+        SAMEPERIODLASTYEAR(Calendrier[Date])
+    )
+
+// Émissions par MWh vendu (intensité carbone)
+Intensité Carbone = 
+    DIVIDE([Total Emissions], SUM(Ventes[Volume_MWh]), 0)</code></pre>
+
+    <h3>Structure recommandée d'un dashboard carbone</h3>
+    <ul class="checklist">
+      <li><strong>Page 1 — Vue Exécutive</strong> : KPI total émissions, % budget consommé, tendance vs N-1, carte géographique par région</li>
+      <li><strong>Page 2 — Suivi Budget</strong> : tableau plateforme × mois, mise en forme conditionnelle, projection fin d'année</li>
+      <li><strong>Page 3 — Analyse par Énergie</strong> : breakdown scope 3 par vecteur (gaz, électricité, GNL…), évolution du mix</li>
+      <li><strong>Page 4 — Drill-down</strong> : granularité contrat/client pour les équipes opérationnelles (avec filtres)</li>
+    </ul>
+
+    <h3>Ressources Power BI</h3>
+    <div class="resources">
+      <a class="resource-item" href="https://learn.microsoft.com/fr-fr/training/powerplatform/power-bi" target="_blank">
+        <span class="resource-badge badge-course">COURS</span>
+        <div class="resource-content">
+          <div class="resource-title">Microsoft Learn — Power BI (parcours officiel)</div>
+          <div class="resource-desc">Parcours de formation officiel et gratuit. Commencer par "Analyser les données avec Power BI" → environ 6h de contenu structuré.</div>
+          <div class="resource-url">learn.microsoft.com/fr-fr/training/powerplatform/power-bi</div>
+        </div>
+      </a>
+      <a class="resource-item" href="https://www.youtube.com/c/GuyInACube" target="_blank">
+        <span class="resource-badge badge-vid">VIDÉO</span>
+        <div class="resource-content">
+          <div class="resource-title">Guy in a Cube — YouTube</div>
+          <div class="resource-desc">La chaîne YouTube de référence sur Power BI. Playlists dédiées à DAX, Power Query, modélisation. Équipe ex-Microsoft, qualité professionnelle.</div>
+          <div class="resource-url">youtube.com/c/GuyInACube</div>
+        </div>
+      </a>
+      <a class="resource-item" href="https://dax.guide" target="_blank">
+        <span class="resource-badge badge-tool">OUTIL</span>
+        <div class="resource-content">
+          <div class="resource-title">DAX.guide</div>
+          <div class="resource-desc">Référence complète de toutes les fonctions DAX avec exemples interactifs. Indispensable à garder en favori.</div>
+          <div class="resource-url">dax.guide</div>
+        </div>
+      </a>
+      <a class="resource-item" href="https://sqlbi.com/articles/introducing-dax/" target="_blank">
+        <span class="resource-badge badge-doc">ARTICLE</span>
+        <div class="resource-content">
+          <div class="resource-title">SQLBI — Introduction to DAX</div>
+          <div class="resource-desc">SQLBI est la référence mondiale sur DAX. Leur série d'articles "Introducing DAX" + "DAX Patterns" couvre tous les cas d'usage analytics avancés.</div>
+          <div class="resource-url">sqlbi.com/articles/introducing-dax</div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- JOUR 1 -->
+  <section class="section fade-in" id="jour1">
+    <div class="section-header">
+      <span class="section-num">10</span>
+      <h2 class="section-title">Checklist <span class="accent">Jour 1</span></h2>
+    </div>
+
+    <p>
+      Ce que tu dois avoir en tête — et faire — dès ta première semaine.
+    </p>
+
+    <h3>🧠 Questions à poser à ton manager dès J1</h3>
+    <ul class="checklist">
+      <li>Quel est le <strong>livrable principal</strong> à 6 mois ? Quel outil ou dashboard doit exister que n'existait pas avant ton arrivée ?</li>
+      <li>Où en est le carbon accounting actuel de S&EM ? (stade 1 ? 2 ?) Quelle est la cible ?</li>
+      <li>Quelles sources de données sont disponibles ? (systèmes trading, ERP, données de ventes gaz/élec)</li>
+      <li>Qui sont les <strong>contributeurs métier</strong> qui fournissent les données ? Avec qui faut-il construire la relation ?</li>
+      <li>Y a-t-il un projet DataIKU existant sur lequel te connecter ?</li>
+      <li>Quelle est la méthodologie GHG Protocol adoptée (scopes couverts, méthodes scope 2 retenues) ?</li>
+      <li>Quelles sont les obligations CSRD de cette année à couvrir ?</li>
+    </ul>
+
+    <h3>📚 Lectures avant J1</h3>
+    <ul class="checklist">
+      <li>Rapport de durabilité ENGIE (dernière édition) — <em>engie.com/investisseurs</em></li>
+      <li>GHG Protocol Corporate Standard — <em>ghgprotocol.org</em> (au moins executive summary + scopes)</li>
+      <li>ESRS E1 (norme CSRD sur le changement climatique) — <em>efrag.eu</em></li>
+      <li>LinkedIn S&EM : profils de l'équipe Sustainability + publications récentes</li>
+      <li>Prix carbone EU ETS aujourd'hui — <em>ember-climate.org</em></li>
+    </ul>
+
+    <h3>🛠 Setup technique à préparer</h3>
+    <ul class="checklist">
+      <li>Environnement Python : installer <code>pandas</code>, <code>openpyxl</code>, <code>plotly</code>, <code>jupyter</code> (via Anaconda ou venv)</li>
+      <li>Demander l'accès à l'espace DataIKU de l'équipe dès J1</li>
+      <li>Power BI Desktop : installer la version gratuite desktop (<em>powerbi.microsoft.com</em>)</li>
+      <li>Créer un compte sur <code>ghgprotocol.org</code> pour accéder aux outils de calcul</li>
+      <li>Télécharger la Base Carbone ADEME (<em>bilans-ges.ademe.fr</em>) — les facteurs d'émission FR de référence</li>
+    </ul>
+
+    <h3>🎯 Mindset pour réussir ce stage</h3>
+    <div class="cards">
+      <div class="card">
+        <span class="card-icon">🔍</span>
+        <div class="card-title">Curiosité avant tout</div>
+        <div class="card-body">Le carbon accounting est jeune. Il n'y a pas de réponse standard — pose des questions, challenge les méthodes existantes.</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">🌉</span>
+        <div class="card-title">Passeur tech/métier</div>
+        <div class="card-body">Ta valeur est de faire le pont entre la data brute et les décisions business. Un trader ne lira pas un script Python — traduis en dashboard clair.</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">📝</span>
+        <div class="card-title">Documenter tout</div>
+        <div class="card-body">Dans un poste en construction, ce que tu ne documentes pas disparaît après ton départ. Chaque méthode, chaque source = une documentation.</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">🤝</span>
+        <div class="card-title">Réseau interne</div>
+        <div class="card-body">Les gens qui ont les données ne sont pas dans ton équipe. Construire des relations avec les plateformes business est aussi important que les compétences tech.</div>
+      </div>
+    </div>
+
+    <div class="alert alert-info">
+      <div class="alert-label">🚀 Bonne chance !</div>
+      Ce stage est une opportunité rare : être à l'intersection de la data, de la finance et de la 
+      transition énergétique dans un groupe du CAC 40. Le carbon accounting est appelé à devenir 
+      aussi central que la comptabilité financière dans les 10 prochaines années. 
+      <strong>Tu arrives exactement au bon moment.</strong>
+    </div>
+  </section>
+
+  <footer id="footer">
+    <span>Carbon Prep Kit · ENGIE S&EM Junior Carbon Operator</span>
+    <span>Généré avec Claude · Anthropic · 2025</span>
+  </footer>
+
+</div><!-- /main -->
+
+<script>
+  // Progress bar
+  window.addEventListener('scroll', () => {
+    const total = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = (window.scrollY / total) * 100;
+    document.getElementById('progress-bar').style.width = pct + '%';
+  });
+
+  // Active nav link
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-link');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navLinks.forEach(l => l.classList.remove('active'));
+        const active = document.querySelector(`.nav-link[href="#${e.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { threshold: 0.3 });
+  sections.forEach(s => observer.observe(s));
+
+  // Fade in on scroll
+  const faders = document.querySelectorAll('.fade-in');
+  const fadeObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+  faders.forEach(f => fadeObserver.observe(f));
+
+  // Tabs
+  function switchTab(btn, tabId) {
+    const group = btn.closest('.tab-group');
+    group.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    group.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(tabId).classList.add('active');
+  }
+</script>
+</body>
+</html>
